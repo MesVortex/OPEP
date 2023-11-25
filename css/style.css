@@ -10,13 +10,6 @@ a{
   text-decoration: none !important;
 }
 
-.submit-btn:active{
-  .form-container form input {
-    background-color: transparent;
-    width: 60%;
-  }  
-}
-
 .login-sec{
   padding-top: 5rem;
   width: 100%;

@@ -24,10 +24,11 @@
         <h2 class="display-3 fw-bold my-lg-5 mb-5 text-center">LOGIN</h2>
       </div>
       <div class="form-container">
-        <form action="#" id="form" class="d-flex-column">
-              <input 
-              type="text" 
-              id="email" 
+        <form action="./phpScripts/login_check.php" method="post" id="form" class="d-flex-column">
+              <input
+              type="text"
+              name="email"
+              id="email"
               class="form-control border-success border-3 col mx-auto"
               placeholder="Email" 
               aria-describedby="FirstNameInputHelp">
@@ -36,6 +37,7 @@
               </div>
               <input 
               type="password"
+              name="pwd"
               id="password" 
               class="form-control border-success border-3 col mt-4 mx-auto"
               placeholder="Password"
