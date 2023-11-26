@@ -42,14 +42,14 @@
       ?>
     </div>
     <div class="list-group list-group-flush">
-      <a href="#" class="list-group-item bg-transparent rounded text-white">DASHBOARD <span class="ms-2 fa-solid fa-caret-right" style="color: #ffffff;"> </span></a>
       <?php
         if(isset($_GET['user_id'])){
           $user_id = $_GET['user_id'];
-          echo '<a href="./categories.php?user_id='.$user_id.'" class="list-group-item bg-transparent rounded text-white">CATEGORIES</a>
-          <a href="./plants.php?user_id='.$user_id.'" class="list-group-item bg-transparent rounded text-white">PLANTES</a>';
+          echo '<a href="./Admin_page.php?user_id='.$user_id.'" class="list-group-item bg-transparent rounded text-white">DASHBOARD</a>
+          <a href="./categories.php?user_id='.$user_id.'" class="list-group-item bg-transparent rounded text-white">CATEGORIES</a>';
         }
-      ?>
+      ?>      
+      <a href="#" class="list-group-item bg-transparent rounded text-white">PLANTES <span class="ms-2 fa-solid fa-caret-right" style="color: #ffffff;"> </span></a>
       <a href="#" class="list-group-item bg-transparent border-bottom rounded text-white">A fourth item</a>
     </div>
   </section>
@@ -108,9 +108,6 @@
     </div>
   </div>
 
-  <?php
-  die();
-  ?>
   
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
