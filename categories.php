@@ -62,7 +62,7 @@
     <h1>CATEGORIES</h1>
   </div>
   <div class="text-center w-75 p-0 my-5 | container">
-    <table class="ms-4 table">
+    <table class="ms-4 table table-striped">
       <thead><tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Modify</th></tr></thead>
       <tbody>
       <?php
@@ -88,7 +88,7 @@
                   <form action="./phpScripts/modify_category.php" method="post" class="d-flex justify-content-evenly">
                     <div>
                       <label for="newName" class="text-start form-label">New Name</label>
-                      <input type="text" name="newName" class="form-control" id="newName" placeholder="exp: orchids">
+                      <input type="text" name="newName" class="form-control mb-3 border-success" id="newName" placeholder="exp: orchids">
                       <select class="form-select d-none" name="category_id" aria-label="Default select example">
                           <option selected>'.$category_rows['id'].'</option>
                       </select>';
@@ -126,7 +126,7 @@
             <form action="./phpScripts/add_category.php" method="post" class="d-flex justify-content-evenly">
               <div>
                 <label for="newCategoryName" class="text-start form-label">New Category Name</label>
-                <input type="text" name="categoryName" class="form-control" id="newCategoryName" placeholder="exp: orchids">
+                <input type="text" name="categoryName" class="form-control border-success" id="newCategoryName" placeholder="exp: orchids">
                 <?php
                   if(isset($_GET['user_id'])){
                     $user_id = $_GET['user_id'];
@@ -150,3 +150,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<?php
+  die();
+?>
