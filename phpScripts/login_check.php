@@ -22,29 +22,32 @@ function check_role($id){
   
 }
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  if(!empty($_POST['email']) && !empty($_POST['pwd'])){
+    
+    $Email = $_POST['email'];
+    $Password = $_POST['pwd'];
 
-if(!empty($_POST['email']) && !empty($_POST['pwd'])){
-  
-  $Email = $_POST['email'];
-  $Password = $_POST['pwd'];
+    include "./dbconnect.php";
 
-  include "./dbconnect.php";
+    $query = "SELECT Email,Password,user_id FROM user";
+    $result = $conn->query($query);
 
-  $query = "SELECT Email,Password,user_id FROM user";
-  $result = $conn->query($query);
-
-  while($rows = $result->fetch_assoc()){
-    if($rows['Email'] == $Email){
-      if($rows['Password'] == $Password){
-        check_role($rows['user_id']);
+    while($rows = $result->fetch_assoc()){
+      if($rows['Email'] == $Email){
+        if($rows['Password'] == $Password){
+          check_role($rows['user_id']);
+        }
       }
     }
+
+    header('location: ../authentification.php');
+
+    die();
+
+  }else{
+    header('location: ../authentification.php');
   }
-
-  header('location: ../authentification.php');
-
-  die();
-
 }else{
   header('location: ../authentification.php');
 }

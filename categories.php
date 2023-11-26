@@ -59,60 +59,92 @@
     </div>
   </section>
   <div class="text-center w-75 p-0 my-4 | container">
-    <?php
-      if(isset($_GET['user_id'])){
-        echo '<h1>Welcome Back '.$user_row['user_FirstName'].'</h1>';
-      }
-    ?>
+    <h1>CATEGORIES</h1>
   </div>
-  <div class="row w-75 gap-4 p-0 mt-5 flex-wrap | container">
-    <div class=" ms-lg-5 card text-white mb-3 shadow-lg | info-card" style="max-width: 18rem;">
-      <div class="card-body">
-        <h2 class="card-title mt-2 fw-bolder">150</h2>
-        <p class="card-text mt-4 fs-4">New Orders</p>
-      </div>
-      <a href="#" class="card-footer text-center text-decoration-none">More Info <span class="ms-2 fa-solid fa-circle-arrow-right" style="color: #ffffff;"> </span></a>
-    </div>
-    <div class=" card text-white mb-3 shadow-lg | info-card" style="max-width: 18rem;">
-      <div class="card-body">
-        <?php
-
-          $query = "SELECT * FROM user";
-          $result = $conn->query($query);
-
-          $i=0;
-          while($rows = $result->fetch_assoc()){
-            $i++;
-          }
-          
-          echo '<h2 class="card-title mt-2 fw-bolder">'.$i.'</h2>';
-          
-        ?>
-        <p class="card-text mt-4 fs-4">User Registrations</p>
-      </div>
-      <a href="#" class="card-footer text-center text-decoration-none">More Info <span class="ms-2 fa-solid fa-circle-arrow-right" style="color: #ffffff;"> </span></a>
-    </div>
-    <div class=" card text-white mb-3 shadow-lg | info-card" style="max-width: 18rem;">
-      <div class="card-body">
+  <div class="text-center w-75 p-0 my-5 | container">
+    <table class="ms-4 table">
+      <thead><tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Modify</th></tr></thead>
+      <tbody>
       <?php
+        $category_query = "SELECT * FROM category";
+        $category_result = $conn->query($category_query);
 
-        $query = "SELECT * FROM plante";
-        $result = $conn->query($query);
-
-        $i=0;
-        while($rows = $result->fetch_assoc()){
-          $i++;
+        while($category_rows = $category_result->fetch_assoc()){
+          echo '
+            <tr>
+              <th scope="row">'.$category_rows['id'].'</th>
+              <td>'.$category_rows['category_name'].'</td>
+              <td><a type="button" data-bs-toggle="modal" data-bs-target="#modifyCategoryModal'.$category_rows['id'].'"><i class="fa-solid fa-bars-progress" style="color: #104601;"></i></a></td>
+            </tr>
+            <!--Modify Category Modal -->
+            <div class="modal fade" id="modifyCategoryModal'.$category_rows['id'].'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Modify '.$category_rows['category_name'].' Category</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="./phpScripts/modify_category.php" method="post" class="d-flex justify-content-evenly">
+                    <div>
+                      <label for="newName" class="text-start form-label">New Name</label>
+                      <input type="text" name="newName" class="form-control" id="newName" placeholder="exp: orchids">
+                      <select class="form-select d-none" name="category_id" aria-label="Default select example">
+                          <option selected>'.$category_rows['id'].'</option>
+                      </select>';
+                      if(isset($_GET['user_id'])){
+                        $user_id = $_GET['user_id'];
+                        echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                                  <option selected>'.$user_id.'</option>
+                              </select>';
+                      }    
+                    echo '</div>
+                    <div class="align-self-end">
+                      <button type="submit" class="btn btn-success">Done</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>';
         }
-
-        echo '<h2 class="card-title mt-2 fw-bolder">'.$i.'</h2>';
-
-        ?>
-        <p class="card-text mt-4 fs-4">Plants In Stock</p>
+      ?>
+        <tr>
+          <th scope="row">ADD</th>
+          <td colspan="2"><a type="button" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="fa-solid fa-circle-plus" style="color: #014601;"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--ADD Category Modal -->
+    <div class="modal fade" id="addCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Category</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="./phpScripts/add_category.php" method="post" class="d-flex justify-content-evenly">
+              <div>
+                <label for="newCategoryName" class="text-start form-label">New Category Name</label>
+                <input type="text" name="categoryName" class="form-control" id="newCategoryName" placeholder="exp: orchids">
+                <?php
+                  if(isset($_GET['user_id'])){
+                    $user_id = $_GET['user_id'];
+                    echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                              <option selected>'.$user_id.'</option>
+                          </select>';
+                  }
+                ?>
+              </div>
+              <div class="align-self-end">
+                <button type="submit" class="btn btn-success">Done</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <a href="#" class="card-footer text-center text-decoration-none">More Info <span class="ms-2 fa-solid fa-circle-arrow-right" style="color: #ffffff;"> </span></a>
     </div>
   </div>
-
   
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

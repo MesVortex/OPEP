@@ -16,7 +16,7 @@ p{
   width: 20vw;
   height: 100vh;
   border-radius: 0 10px 10px 0;
-  background-color: rgb(1, 70, 1);
+  background-color: #014601;
 }
 
 .img-box{
@@ -34,5 +34,5 @@ p{
 }
 
 .info-card{
-  background-color: rgb(1, 70, 1) !important;
+  background-color: #014601 !important;
 }
