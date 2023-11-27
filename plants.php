@@ -81,7 +81,7 @@
                   <h1 class="modal-title fs-5" id="staticBackdropLabel">Are you sure you want to delete '.$plants_rows['name'].' ?</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body d-flex justify-content-center">
                   <form action="./phpScripts/delete_plant.php" method="post" class="d-flex justify-content-evenly">
                     <div>
                       <select class="form-select d-none" name="plant_id" aria-label="Default select example">
@@ -95,10 +95,12 @@
                       }    
                     echo '</div>
                     <div class="align-self-end">
-                      <button type="submit" class="btn btn-danger">DELETE</button>
-                      <button class="btn btn-success" data-bs-dismiss="modal">Go Back</button>                     
+                      <button type="submit" class="btn btn-danger">DELETE</button>                    
                     </div>
                   </form>
+                  <div class="ms-3">
+                    <button class="btn btn-success" data-bs-dismiss="modal">Go Back</button>
+                  </div>
                 </div>
               </div>
             </div>';

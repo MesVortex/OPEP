@@ -24,7 +24,7 @@
         <h2 class="display-3 fw-bold my-lg-5 mb-5 text-center">Choose Your Role</h2>
       </div>
       <form method="post" action="./phpScripts/signup_role_check.php">
-        <select name="userRole" class="form-select border-3 border-success w-50 mx-auto" aria-label="select role">
+        <select name="userRole" class="form-select border-3 border-success w-50 mx-auto focus-ring focus-ring-success" aria-label="select role">
             <option selected>Client</option>
             <option value="Administrator">Administrator</option>
         </select>

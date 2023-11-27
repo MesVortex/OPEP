@@ -29,7 +29,7 @@
               type="text"
               name="email"
               id="email"
-              class="form-control border-success border-3 col mx-auto"
+              class="form-control border-success border-3 col mx-auto focus-ring focus-ring-success"
               placeholder="Email" 
               aria-describedby="FirstNameInputHelp">
               <div id="FirstNameInputHelp" class="form-text text-danger | error_para">
@@ -39,7 +39,7 @@
               type="password"
               name="pwd"
               id="password" 
-              class="form-control border-success border-3 col mt-4 mx-auto"
+              class="form-control border-success border-3 col mt-4 mx-auto focus-ring focus-ring-success"
               placeholder="Password"
               aria-describedby="LastNameInputHelp">
               <div id="LastNameInputHelp" class="form-text text-danger | error_para">

@@ -29,7 +29,7 @@
           type="text"
           name="firstName"
           id="First_Name"
-          class="form-control border-success border-3 col mx-auto"
+          class="form-control border-success border-3 col mx-auto focus-ring focus-ring-success"
           placeholder="First Name" 
           aria-describedby="FirstNameInputHelp">
           <div id="FirstNameInputHelp" class="form-text text-danger | error_para">
@@ -39,7 +39,7 @@
           type="text" 
           name="lastName"
           id="Last_Name" 
-          class="form-control border-success border-3 col mt-4 mx-auto"
+          class="form-control border-success border-3 col mt-4 mx-auto focus-ring focus-ring-success"
           placeholder="Last Name" 
           aria-describedby="LastNameInputHelp">
           <div id="LastNameInputHelp" class="form-text text-danger | error_para">
@@ -49,7 +49,7 @@
           type="email" 
           id="Email"
           name="email" 
-          class="form-control border-success border-3 col mt-4 mx-auto"
+          class="form-control border-success border-3 col mt-4 mx-auto focus-ring focus-ring-success"
           placeholder="Email" 
           aria-describedby="EmailInputHelp">
           <div id="EmailInputHelp" class="form-text text-danger | error_para">
@@ -59,7 +59,7 @@
           type="password"
           id="password"
           name="pwd"
-          class="form-control border-success border-3 col mt-4 mx-auto"
+          class="form-control border-success border-3 col mt-4 mx-auto focus-ring focus-ring-success"
           placeholder="Password"
           aria-describedby="PasswordInputHelp">
           <?php
