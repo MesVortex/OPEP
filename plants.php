@@ -50,7 +50,7 @@
         }
       ?>      
       <a href="#" class="list-group-item bg-transparent rounded text-white">PLANTES <span class="ms-2 fa-solid fa-caret-right" style="color: #ffffff;"> </span></a>
-      <a href="#" class="list-group-item bg-transparent border-bottom rounded text-white">A fourth item</a>
+      <a href="./authentification.php" class="list-group-item bg-transparent border-bottom rounded text-white">Disconnect</a>
     </div>
   </section>
   <div class="text-center w-75 p-0 my-4 | container">
@@ -58,7 +58,7 @@
   </div>
   <div class="text-center w-75 p-0 my-5 | container">
     <table class="ms-4 table table-striped">
-      <thead><tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Category</th> <th scope="col">DELETE</th></tr></thead>
+      <thead><tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Price</th> <th scope="col">Category</th> <th scope="col">DELETE</th></tr></thead>
       <tbody>
       <?php
         $plants_query = "SELECT plante.*,category.category_name FROM plante INNER JOIN category ON plante.category_id = category.id";
@@ -69,22 +69,21 @@
             <tr>
               <th scope="row">'.$plants_rows['plant_id'].'</th>
               <td>'.$plants_rows['name'].'</td>
+              <td>'.$plants_rows['price'].' MAD</td>
               <td>'.$plants_rows['category_name'].'</td>
               <td><a type="button" data-bs-toggle="modal" data-bs-target="#modifyCategoryModal'.$plants_rows['plant_id'].'"><i class="fa-solid fa-circle-minus" style="color: #014601;"></i></a></td>
             </tr>
-            <!--Modify Category Modal -->
+            <!--Delete Plant Modal -->
             <div class="modal fade" id="modifyCategoryModal'.$plants_rows['plant_id'].'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Modify '.$plants_rows['name'].' Category</h1>
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Are you sure you want to delete '.$plants_rows['name'].' ?</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form action="./phpScripts/modify_category.php" method="post" class="d-flex justify-content-evenly">
+                  <form action="./phpScripts/delete_plant.php" method="post" class="d-flex justify-content-evenly">
                     <div>
-                      <label for="newName" class="text-start form-label">New Name</label>
-                      <input type="text" name="newName" class="form-control" id="newName" placeholder="exp: orchids">
                       <select class="form-select d-none" name="plant_id" aria-label="Default select example">
                           <option selected>'.$plants_rows['plant_id'].'</option>
                       </select>';
@@ -96,7 +95,8 @@
                       }    
                     echo '</div>
                     <div class="align-self-end">
-                      <button type="submit" class="btn btn-success">Done</button>
+                      <button type="submit" class="btn btn-danger">DELETE</button>
+                      <button class="btn btn-success" data-bs-dismiss="modal">Go Back</button>                     
                     </div>
                   </form>
                 </div>
@@ -106,7 +106,7 @@
       ?>
         <tr>
           <th scope="row">ADD</th>
-          <td colspan="3"><a type="button" data-bs-toggle="modal" data-bs-target="#addPlantModal"><i class="fa-solid fa-circle-plus" style="color: #014601;"></i></a></td>
+          <td colspan="4"><a type="button" data-bs-toggle="modal" data-bs-target="#addPlantModal"><i class="fa-solid fa-circle-plus" style="color: #014601;"></i></a></td>
         </tr>
       </tbody>
     </table>
@@ -119,7 +119,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form action="./phpScripts/add_plant.php" method="post" class="column">
+            <form action="./phpScripts/add_plant.php" method="post" class="column" enctype="multipart/form-data">
               <div>
                 <input type="text" name="plantName" class="form-control mb-2 border-success" id="newPlantName" placeholder="Plant Name">
                 <?php
@@ -130,6 +130,9 @@
                           </select>';
                   }
                 ?>
+              </div>
+              <div class="mb-2">
+                <input type="number" name="plant_price" class="form-control border-success" placeholder="Price in MAD" id="plantPrice">
               </div>
               <div>
               <?php
@@ -145,7 +148,7 @@
                 ?>
               </div>
               <div class="mb-3">
-                <input class="form-control border-success" type="file" id="formFile">
+                <input type="file" name="imageFile" class="form-control border-success" id="formFile">
               </div>
               <div class="align-self-end">
                 <button type="submit" class="btn btn-success">Done</button>

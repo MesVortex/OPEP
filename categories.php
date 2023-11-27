@@ -55,7 +55,7 @@
           echo '<a href="./plants.php?user_id='.$user_id.'" class="list-group-item bg-transparent rounded text-white">PLANTES</a>';
         }
       ?>
-      <a href="#" class="list-group-item bg-transparent border-bottom rounded text-white">A fourth item</a>
+      <a href="./authentification.php" class="list-group-item bg-transparent border-bottom rounded text-white">Disconnect</a>
     </div>
   </section>
   <div class="text-center w-75 p-0 my-4 | container">
