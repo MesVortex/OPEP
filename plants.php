@@ -54,7 +54,7 @@
     </div>
   </section>
   <div class="text-center w-75 p-0 my-4 | container">
-    <h1>CATEGORIES</h1>
+    <h1>PLANTS</h1>
   </div>
   <div class="text-center w-75 p-0 my-5 | container">
     <table class="ms-4 table table-striped">

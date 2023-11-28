@@ -24,28 +24,59 @@
         <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="fa-solid fa-cart-shopping fa-xl" style="color: #ffffff;"></span>
         </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Shopping Cart</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <div class=" border-success d-flex" style="width: 18rem;">
-          <img src="./images/IMG-656515181fcc95.19420281.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="card-text"></p>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item border-success"><span class="fw-bold">Name: </span>placholder</li>
-              <li class="list-group-item border-success"><span class="fw-bold">Category: </span>placholder</li>
-              <li class="list-group-item border-success"><span class="fw-bold">Price: </span>placholder MAD</li>
-            </ul>
-            <div>
-              <button type="submit" class="btn btn-danger">Remove From Cart</button>
+        <div class="offcanvas offcanvas-end | canvas-width" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Shopping Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead><tr> <th scope="col">Plant</th> <th scope="col">Name</th> <th scope="col">Category</th> <th scope="col">Price</th> <th scope="col">Validate</th> <th scope="col">Remove</th></tr></thead>
+                <tbody>
+                  <?php
+                    include "./phpScripts/dbconnect.php";
+
+
+                    echo '
+                    <tr>
+                      <th scope="row"><img class="card-img-top" src="./images/IMG-65647564d19fe7.33276743.jpg" alt=""></th>
+                      <td>name</td>
+                      <td>category</td>
+                      <td>price MAD</td>
+                      <form action="" method="post">
+                        <td><button type="submit" class="btn"><i class="fa-solid fa-circle-check" style="color: #104601;"></i></button></td>
+                      </form>
+                      <form action="" method="post">
+                        <td><button type="submit" class="btn"><i class="fa-solid fa-circle-minus text-danger"></i></button></td>
+                      </form>
+                    </tr>';
+                    if(isset($_GET['user_id'])){
+                        $user_id = $_GET['user_id'];
+                        echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                                  <option selected>'.$user_id.'</option>
+                              </select>';
+                      }
+                    echo '';
+                  ?>
+                </tbody>
+              </table>
             </div>
+            <!-- <div class="card border-success" style="width: 20rem;">
+              <img src="./images/IMG-656515181fcc95.19420281.jpg" class="card-img-top" alt="...">
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item border-success"><span class="fw-bold">Name: </span>placholder</li>
+                  <li class="list-group-item border-success"><span class="fw-bold">Category: </span>placholder</li>
+                  <li class="list-group-item border-success"><span class="fw-bold">Price: </span>placholder MAD</li>
+                </ul>
+                <div>
+                  <button type="submit" class="btn btn-danger">Remove From Cart</button>
+                </div>
+              </div>
+            </div> -->
           </div>
         </div>
-      </div>
-    </div>
       </div>
     </nav>
   </header>
@@ -58,7 +89,6 @@
     </div>
     <div class="ms-5 mb-3 | filter-body">
       <?php
-        include "./phpScripts/dbconnect.php";
 
         $query = "SELECT * FROM category";
         $result = $conn->query($query);
@@ -100,23 +130,33 @@
           "SELECT plante.*,category.category_name 
           FROM plante 
           JOIN category 
-          WHERE plante.category_id = category.id 
+          ON plante.category_id = category.id 
           AND
           plante.category_id = ($categoryID)";
 
           $result = $conn->query($filter_query);
 
           while($rows = $result->fetch_assoc()){
-            echo '<div class="card border-success" style="width: 18rem;">
+            echo '<div class="card border-success shadow-lg" style="width: 18rem;">
             <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="card-text"></p>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
                 <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
                 <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
               </ul>
-              <button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+              <form action="./phpScripts/add_to_cart.php" method="post">
+              <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+                <option selected>'.$rows['plant_id'].'</option>
+              </select>';
+              if(isset($_GET['user_id'])){
+                $user_id = $_GET['user_id'];
+                echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                          <option selected>'.$user_id.'</option>
+                      </select>';
+              }
+              echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+            </form>
             </div>
           </div>';
           }
@@ -128,12 +168,12 @@
         "SELECT plante.*,category.category_name
         FROM plante
         JOIN category
-        WHERE plante.category_id = category.id";
+        ON plante.category_id = category.id";
 
         $result = $conn->query($show_all_query);
 
         while($rows = $result->fetch_assoc()){
-          echo '<div class="card border-success" style="width: 18rem;">
+          echo '<div class="card border-success shadow-lg" style="width: 18rem;">
           <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
           <div class="card-body">
             <p class="card-text"></p>
@@ -142,15 +182,24 @@
               <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
               <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
             </ul>
-            <button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+            <form action="./phpScripts/add_to_cart.php" method="post">
+              <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+                <option selected>'.$rows['plant_id'].'</option>
+              </select>';
+              if(isset($_GET['user_id'])){
+                $user_id = $_GET['user_id'];
+                echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                          <option selected>'.$user_id.'</option>
+                      </select>';
+              }
+              echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+            </form>
           </div>
           </div>';
-
         }
       }
     ?>
   </section>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

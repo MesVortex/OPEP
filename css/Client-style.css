@@ -51,3 +51,7 @@ p{
 .filter-header:hover{
   background-color: #048704;
 }
+
+.canvas-width{
+  width: 50vw !important;
+}
