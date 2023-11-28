@@ -37,27 +37,43 @@
                   <?php
                     include "./phpScripts/dbconnect.php";
 
-
-                    echo '
-                    <tr>
-                      <th scope="row"><img class="card-img-top" src="./images/IMG-65647564d19fe7.33276743.jpg" alt=""></th>
-                      <td>name</td>
-                      <td>category</td>
-                      <td>price MAD</td>
-                      <form action="" method="post">
-                        <td><button type="submit" class="btn"><i class="fa-solid fa-circle-check" style="color: #104601;"></i></button></td>
-                      </form>
-                      <form action="" method="post">
-                        <td><button type="submit" class="btn"><i class="fa-solid fa-circle-minus text-danger"></i></button></td>
-                      </form>
-                    </tr>';
                     if(isset($_GET['user_id'])){
-                        $user_id = $_GET['user_id'];
-                        echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
-                                  <option selected>'.$user_id.'</option>
-                              </select>';
-                      }
-                    echo '';
+                      $user_id = $_GET['user_id'];
+                    }
+
+                    $cart_fetch_query = 
+                    "SELECT plante.*,category.category_name FROM plante 
+                    JOIN category ON plante.category_id = category.id
+                    JOIN panier ON panier.userID = $user_id
+                    JOIN panierxplante ON panierxplante.planteID = plante.plant_id 
+                    AND
+                    panierxplante.panierID = panier.id 
+                    ";
+
+                    $fetch_result = $conn->query($cart_fetch_query);
+                    
+                    while($cart_rows = $fetch_result->fetch_assoc()){
+                      echo '
+                      <tr>
+                        <th scope="row"><img class="card-img-top" src="./images/'.$cart_rows['img_url'].'" alt=""></th>
+                        <td>'.$cart_rows['name'].'</td>
+                        <td>'.$cart_rows['category_name'].'</td>
+                        <td>'.$cart_rows['price'].' MAD</td>
+                        <form action="" method="post">
+                          <td><button type="submit" class="btn"><i class="fa-solid fa-circle-check" style="color: #104601;"></i></button></td>
+                        </form>
+                        <form action="" method="post">
+                          <td><button type="submit" class="btn"><i class="fa-solid fa-circle-minus text-danger"></i></button></td>
+                        </form>
+                      </tr>';
+                      if(isset($_GET['user_id'])){
+                          $user_id = $_GET['user_id'];
+                          echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                                    <option selected>'.$user_id.'</option>
+                                </select>';
+                        }
+                      echo '';
+                    }
                   ?>
                 </tbody>
               </table>
