@@ -30,7 +30,6 @@
       "INSERT INTO panierxplante 
       VALUES('', $panier, $plantID)";
       $fill_result = $conn->query($fill_cart_query);
-
     }
     
     header('location: ../Client_page.php?user_id='.$userID);

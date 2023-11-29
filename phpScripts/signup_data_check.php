@@ -5,7 +5,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $First_Name = $_POST['firstName'];
     $Last_Name = $_POST['lastName'];
     $Email = $_POST['email'];
-    $Password = password_hash($_POST['pwd'], PASSWORD_DEFAULT);
+    $Password = $_POST['pwd'];
 
     try {
       include "./dbconnect.php";

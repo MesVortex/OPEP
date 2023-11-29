@@ -21,6 +21,19 @@
         <div class="navbar-brand | img-box">
           <img src="./images/logo-removebg-preview.png" alt="">
         </div>
+        <form class="d-flex" action="./Client_page.php" method="get">
+        <?php
+        
+          if(isset($_GET['user_id'])){
+            $user_id = $_GET['user_id'];
+            echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                      <option selected>'.$user_id.'</option>
+                  </select>';
+          }
+        ?>
+          <input class="form-control me-2" name="search" placeholder="Search plant by name" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
         <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="fa-solid fa-cart-shopping fa-xl" style="color: #ffffff;"></span>
         </button>
@@ -32,7 +45,7 @@
           <div class="offcanvas-body">
             <div class="table-responsive">
               <table class="table table-striped">
-                <thead><tr> <th scope="col">Plant</th> <th scope="col">Name</th> <th scope="col">Category</th> <th scope="col">Price</th> <th scope="col">Validate</th> <th scope="col">Remove</th></tr></thead>
+                <thead><tr> <th scope="col">Plant</th> <th scope="col">Name</th> <th scope="col">Category</th> <th scope="col">Price</th> <th scope="col">Remove</th></tr></thead>
                 <tbody>
                   <?php
                     include "./phpScripts/dbconnect.php";
@@ -51,6 +64,7 @@
                     ";
 
                     $fetch_result = $conn->query($cart_fetch_query);
+                   
                     
                     while($cart_rows = $fetch_result->fetch_assoc()){
                       echo '
@@ -59,38 +73,37 @@
                         <td>'.$cart_rows['name'].'</td>
                         <td>'.$cart_rows['category_name'].'</td>
                         <td>'.$cart_rows['price'].' MAD</td>
-                        <form action="" method="post">
-                          <td><button type="submit" class="btn"><i class="fa-solid fa-circle-check" style="color: #104601;"></i></button></td>
-                        </form>
-                        <form action="" method="post">
-                          <td><button type="submit" class="btn"><i class="fa-solid fa-circle-minus text-danger"></i></button></td>
-                        </form>
-                      </tr>';
-                      if(isset($_GET['user_id'])){
+                        <form action="./phpScripts/delete_from_cart.php" method="post">';
+                        if(isset($_GET['user_id'])){
                           $user_id = $_GET['user_id'];
                           echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
                                     <option selected>'.$user_id.'</option>
                                 </select>';
                         }
-                      echo '';
+                          echo' <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+                          <option selected>'.$cart_rows['plant_id'].'</option>
+                          </select>
+                          <td><button type="submit" class="btn"><i class="fa-solid fa-circle-minus text-danger"></i></button></td>
+                        </form>
+                      </tr>';
                     }
                   ?>
+                  <tr> <th scope="col">Purchase</th>
+                    <?php
+                     if(isset($_GET['user_id'])){
+                       $user_id = $_GET['user_id'];
+                       echo '<form action="./commande.php?user_id='.$user_id.'" method="post">
+                       <select class="form-select d-none" name="user_id" aria-label="Default select example">
+                       <option selected>'.$user_id.'</option>
+                       </select>';
+                     }
+                    ?>
+                    <td colspan="4"><button type="submit" class="btn py-0"><i class="fa-solid fa-circle-check" style="color: #104601;"></i></button></td>
+                  </form>
+                  </tr>
                 </tbody>
               </table>
             </div>
-            <!-- <div class="card border-success" style="width: 20rem;">
-              <img src="./images/IMG-656515181fcc95.19420281.jpg" class="card-img-top" alt="...">
-              <div class="card-body">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item border-success"><span class="fw-bold">Name: </span>placholder</li>
-                  <li class="list-group-item border-success"><span class="fw-bold">Category: </span>placholder</li>
-                  <li class="list-group-item border-success"><span class="fw-bold">Price: </span>placholder MAD</li>
-                </ul>
-                <div>
-                  <button type="submit" class="btn btn-danger">Remove From Cart</button>
-                </div>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -176,6 +189,54 @@
             </div>
           </div>';
           }
+        }
+
+      }else if(isset($_GET['search'])){
+
+        $searchValue = $_GET['search'];
+
+        $search_query = 
+        "SELECT plante.*,category.category_name
+        FROM plante
+        JOIN category
+        ON plante.category_id = category.id
+        AND
+        plante.name = '$searchValue'";
+
+        $search_result = $conn->query($search_query);
+        $i = 0;
+          
+        while($rows = $search_result->fetch_assoc()){
+          $i++;
+          echo '<div class="card border-success shadow-lg" style="width: 18rem;">
+          <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text"></p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
+              <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
+              <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
+            </ul>
+            <form action="./phpScripts/add_to_cart.php" method="post">
+              <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+                <option selected>'.$rows['plant_id'].'</option>
+              </select>';
+              if(isset($_GET['user_id'])){
+                $user_id = $_GET['user_id'];
+                echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+                          <option selected>'.$user_id.'</option>
+                      </select>';
+              }
+              echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+            </form>
+          </div>
+          </div>';  
+        }
+        
+        if($i === 0){
+            echo'<div class="alert alert-danger" role="alert">
+            NO RESULTS FOUND!
+          </div>';
         }
 
       }else{
