@@ -61,7 +61,7 @@
       <thead><tr><th scope="col">ID</th> <th scope="col">Name</th> <th scope="col">Price</th> <th scope="col">Category</th> <th scope="col">DELETE</th></tr></thead>
       <tbody>
       <?php
-        $plants_query = "SELECT plante.*,category.category_name FROM plante INNER JOIN category ON plante.category_id = category.id";
+        $plants_query = "SELECT plante.*,category.category_name FROM plante JOIN category ON plante.category_id = category.id";
         $plants_result = $conn->query($plants_query);
 
         while($plants_rows = $plants_result->fetch_assoc()){
