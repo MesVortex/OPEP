@@ -31,7 +31,7 @@
                   </select>';
           }
         ?>
-          <input class="form-control me-2" name="search" placeholder="Search plant by name" aria-label="Search">
+          <input class="form-control me-2" id="searchInput" name="search" placeholder="Search plant by name" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
         <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@
             $checkedCategories = $_GET['categoryList'];
           }
           echo      '<div class="form-check form-switch mb-2">
-          <input class="form-check-input" name="categoryList[]" value ="'.$rows['id'].'" type="checkbox" role="switch" id="filterSwitch"';
+          <input class="form-check-input filterSwitch" name="categoryList[]" value ="'.$rows['id'].'" type="checkbox" role="switch"';
           if(in_array($rows['id'], $checkedCategories)){
             echo 'checked';
           }
@@ -146,100 +146,100 @@
       ?>
     </div>
   </form>
-  <section class="product-section mb-5 | d-inline-flex justify-content-evenly flex-wrap gap-5">
+  <section class="product-section mb-5 | d-inline-flex justify-content-evenly flex-wrap gap-5" id="product_section">
     <?php
 
-      if(isset($_GET['categoryList'])){
+      // if(isset($_GET['categoryList'])){
 
-        $checked = [];
-        $checked = $_GET['categoryList'];
-        foreach($checked as $categoryID){
+      //   $checked = [];
+      //   $checked = $_GET['categoryList'];
+      //   foreach($checked as $categoryID){
 
-          $filter_query = 
-          "SELECT plante.*,category.category_name 
-          FROM plante 
-          JOIN category 
-          ON plante.category_id = category.id 
-          AND
-          plante.category_id = ($categoryID)";
+          // $filter_query = 
+          // "SELECT plante.*,category.category_name 
+          // FROM plante 
+          // JOIN category 
+          // ON plante.category_id = category.id 
+          // AND
+          // plante.category_id = ($categoryID)";
 
-          $result = $conn->query($filter_query);
+          // $result = $conn->query($filter_query);
 
-          while($rows = $result->fetch_assoc()){
-            echo '<div class="card border-success shadow-lg" style="width: 18rem;">
-            <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
-                <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
-                <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
-              </ul>
-              <form action="./phpScripts/add_to_cart.php" method="post">
-              <select class="form-select d-none" name="plant_id" aria-label="Default select example">
-                <option selected>'.$rows['plant_id'].'</option>
-              </select>';
-              if(isset($_GET['user_id'])){
-                $user_id = $_GET['user_id'];
-                echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
-                          <option selected>'.$user_id.'</option>
-                      </select>';
-              }
-              echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
-            </form>
-            </div>
-          </div>';
-          }
-        }
+          // while($rows = $result->fetch_assoc()){
+          //   echo '<div class="card border-success shadow-lg" style="width: 18rem;">
+          //   <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
+          //   <div class="card-body">
+          //     <ul class="list-group list-group-flush">
+          //       <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
+          //       <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
+          //       <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
+          //     </ul>
+          //     <form action="./phpScripts/add_to_cart.php" method="post">
+          //     <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+          //       <option selected>'.$rows['plant_id'].'</option>
+          //     </select>';
+          //     if(isset($_GET['user_id'])){
+          //       $user_id = $_GET['user_id'];
+          //       echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+          //                 <option selected>'.$user_id.'</option>
+          //             </select>';
+          //     }
+          //     echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+          //   </form>
+          //   </div>
+          // </div>';
+          // }
+        // }
 
-      }else if(isset($_GET['search'])){
+      // }else if(isset($_GET['search'])){
 
-        $searchValue = $_GET['search'];
+      //   $searchValue = $_GET['search'];
 
-        $search_query = 
-        "SELECT plante.*,category.category_name
-        FROM plante
-        JOIN category
-        ON plante.category_id = category.id
-        AND
-        plante.name = '$searchValue'";
+      //   $search_query = 
+      //   "SELECT plante.*,category.category_name
+      //   FROM plante
+      //   JOIN category
+      //   ON plante.category_id = category.id
+      //   AND
+      //   plante.name = '$searchValue'";
 
-        $search_result = $conn->query($search_query);
-        $i = 0;
+      //   $search_result = $conn->query($search_query);
+      //   $i = 0;
           
-        while($rows = $search_result->fetch_assoc()){
-          $i++;
-          echo '<div class="card border-success shadow-lg" style="width: 18rem;">
-          <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="card-text"></p>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
-              <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
-              <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
-            </ul>
-            <form action="./phpScripts/add_to_cart.php" method="post">
-              <select class="form-select d-none" name="plant_id" aria-label="Default select example">
-                <option selected>'.$rows['plant_id'].'</option>
-              </select>';
-              if(isset($_GET['user_id'])){
-                $user_id = $_GET['user_id'];
-                echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
-                          <option selected>'.$user_id.'</option>
-                      </select>';
-              }
-              echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
-            </form>
-          </div>
-          </div>';  
-        }
+      //   while($rows = $search_result->fetch_assoc()){
+      //     $i++;
+      //     echo '<div class="card border-success shadow-lg" style="width: 18rem;">
+      //     <img src="./images/'.$rows['img_url'].'" class="card-img-top" alt="...">
+      //     <div class="card-body">
+      //       <p class="card-text"></p>
+      //       <ul class="list-group list-group-flush">
+      //         <li class="list-group-item border-success"><span class="fw-bold">Name: </span>'.$rows['name'].'</li>
+      //         <li class="list-group-item border-success"><span class="fw-bold">Category: </span>'.$rows['category_name'].'</li>
+      //         <li class="list-group-item border-success"><span class="fw-bold">Price: </span>'.$rows['price'].' MAD</li>
+      //       </ul>
+      //       <form action="./phpScripts/add_to_cart.php" method="post">
+      //         <select class="form-select d-none" name="plant_id" aria-label="Default select example">
+      //           <option selected>'.$rows['plant_id'].'</option>
+      //         </select>';
+      //         if(isset($_GET['user_id'])){
+      //           $user_id = $_GET['user_id'];
+      //           echo '<select class="form-select d-none" name="user_id" aria-label="Default select example">
+      //                     <option selected>'.$user_id.'</option>
+      //                 </select>';
+      //         }
+      //         echo '<button type="submit" class="btn text-white mt-2 | add-btn">ADD To Cart</button>
+      //       </form>
+      //     </div>
+      //     </div>';  
+      //   }
         
-        if($i === 0){
-            echo'<div class="alert alert-danger" role="alert">
-            NO RESULTS FOUND!
-          </div>';
-        }
+      //   if($i === 0){
+      //       echo'<div class="alert alert-danger" role="alert">
+      //       NO RESULTS FOUND!
+      //     </div>';
+      //   }
 
-      }else{
+      // }else{
 
         $show_all_query = 
         "SELECT plante.*,category.category_name
@@ -274,9 +274,11 @@
           </div>
           </div>';
         }
-      }
+      // }
     ?>
   </section>
+
+  <script src="./js/ajax.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
